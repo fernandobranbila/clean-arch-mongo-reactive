@@ -1,5 +1,0 @@
-enum PlotProductivityType {
-    YEAR,
-    MONTH,
-    DAY
-}
