@@ -12,7 +12,7 @@ data class FarmEntity(
         @Id
         val id: String?,
         val description: String,
-        val plots: List<Plot>? = null,
+        val plots: List<PlotEntity>? = null,
 ) {
 
     companion object {
@@ -20,12 +20,7 @@ data class FarmEntity(
                 FarmEntity(
                         id = farm.id,
                         description = farm.description,
-                        plots = farm.plots?.map { plot ->
-                            Plot(
-                                    id = plot.id ?: UUID.randomUUID().toString(),
-                                    description = plot.description
-                            )
-                        }
+                        plots = farm.plots?.map { PlotEntity.fromDomain(it) }
                 )
     }
 
@@ -33,6 +28,6 @@ data class FarmEntity(
             Farm(
                     id = id,
                     description = description,
-                    plots = plots
+                    plots = plots?.map { it.toDomain() }
             )
 }
