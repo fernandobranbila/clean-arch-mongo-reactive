@@ -6,7 +6,7 @@ import com.aegro.domain.farm.model.Plot
 data class FarmResponseDto(
         val id: String,
         val description: String,
-        val plots: List<Plot>?
+        val plots: List<PlotResponseDto>?
 ) {
 
     companion object{
@@ -14,7 +14,7 @@ data class FarmResponseDto(
                 FarmResponseDto(
                         id = farm.id!!,
                         description = farm.description,
-                        plots = farm.plots
+                        plots = farm.plots?.map { PlotResponseDto.fromDomain(it) }
                 )
     }
 

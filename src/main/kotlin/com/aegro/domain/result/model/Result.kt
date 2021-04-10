@@ -1,4 +1,4 @@
-package br.com.zechallenge.result.model
+package com.aegro.domain.result.model
 
 sealed class Result<out T, out E>
 

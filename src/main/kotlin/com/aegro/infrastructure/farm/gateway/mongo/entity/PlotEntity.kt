@@ -7,7 +7,7 @@ import org.bson.types.ObjectId
 data class PlotEntity(
         val id: String,
         val description: String?,
-        val area: Long,
+        val area: Float,
         val harvests: List<HarvestEntity>?,
 ) {
 
