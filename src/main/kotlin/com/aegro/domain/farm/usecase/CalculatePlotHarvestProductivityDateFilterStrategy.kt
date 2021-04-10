@@ -3,7 +3,7 @@ package com.aegro.domain.farm.usecase
 import com.aegro.domain.result.model.Result
 import java.time.LocalDate
 
-interface CalculatePlotHarvestDateFilterStrategy {
+interface CalculatePlotHarvestProductivityDateFilterStrategy {
 
     suspend fun validateFilter(startDate: LocalDate?, endDate: LocalDate?): Boolean
 
