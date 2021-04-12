@@ -8,7 +8,7 @@ data class PlotEntity(
         val id: String,
         val description: String?,
         val area: Float,
-        val harvests: List<HarvestEntity>?,
+        val harvests: List<HarvestEntity>? = null,
 ) {
 
     companion object {

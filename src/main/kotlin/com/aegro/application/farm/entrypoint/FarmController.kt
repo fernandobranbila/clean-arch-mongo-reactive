@@ -2,11 +2,9 @@ package com.aegro.application.farm.entrypoint
 
 import com.aegro.application.farm.entrypoint.dto.*
 import com.aegro.domain.farm.gateway.inbound.*
-import com.aegro.domain.result.model.Result
 import com.aegro.domain.result.model.orThrow
 import com.aegro.infrastructure.farm.gateway.mongo.FarmRepositoryCustomImpl
 import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
@@ -26,8 +24,13 @@ class FarmController(
 ) {
 
     @GetMapping("/{id}")
-    suspend fun findFarmById(@PathVariable id: String) =
-        FarmResponseDto.fromDomain(findFarmInbound.execute(id).orThrow())
+    suspend fun findFarmById(@PathVariable id: String): FarmResponseDto {
+        println("aa")
+        val b = findFarmInbound.execute(id)
+        val c = b.orThrow()
+        return FarmResponseDto.fromDomain(findFarmInbound.execute(id).orThrow())
+    }
+
 
     @PostMapping
     suspend fun saveFarm(@RequestBody farmRequestDto: FarmRequestDto) =
@@ -70,8 +73,10 @@ class FarmController(
     @GetMapping(value = ["/{farmId}/plots/harvests/productivity"])
     suspend fun calculateFarmHarvestsProductivity(
         @PathVariable farmId: String,
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") startDate: LocalDate?,
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") endDate: LocalDate?,
     ) =
-        calculateFarmHarvestsProductivityInbound.execute(farmId).orThrow()
+        calculateFarmHarvestsProductivityInbound.execute(farmId, startDate, endDate).orThrow()
 
 
 }

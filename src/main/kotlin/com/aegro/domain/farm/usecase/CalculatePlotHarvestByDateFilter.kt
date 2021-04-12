@@ -6,7 +6,7 @@ import java.time.LocalDate
 import javax.inject.Named
 
 @Named
-class CalculatePlotHarvestByDateFilterFilter(
+class CalculatePlotHarvestByDateFilter(
     private val calculatePlotHarvestProductivityDateFilterStrategy: List<CalculatePlotHarvestProductivityDateFilterStrategy>
 ): CalculatePlotHarvestByDateFilterInbound {
 

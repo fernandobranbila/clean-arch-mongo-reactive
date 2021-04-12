@@ -11,28 +11,29 @@ import java.time.LocalDate
 import javax.inject.Named
 
 @Named
-class CalculatePlotHarvestUntilEndProductivityDate(
+class CalculatePlotHarvestProductivityAfterStartDate(
         private val findFarmIdOutbound: FindFarmIdOutbound,
+
 ) : CalculatePlotHarvestProductivityDateFilterStrategy {
 
     override suspend fun validateFilter(startDate: LocalDate?, endDate: LocalDate?) =
-            startDate == null && endDate != null
+            startDate != null && endDate == null
 
     override suspend fun execute(farmId: String, plotId: String, startDate: LocalDate?, endDate: LocalDate?): Result<Int, Exception> {
         val (_, _, plots) = findFarmIdOutbound.execute(farmId).onFailure { return it }
-        return calculatePlotHarvestsProductivityUntilEndDate(plots, plotId, endDate)
+        return calculatePlotHarvestsProductivityAfterStartDate(plots, plotId, startDate)
                 ?.let {
                     Success(it)
                 } ?: Failure(NotFoundException(code = "farm.plot.harvest.not-found-productivity"))
+
     }
 
-    private fun calculatePlotHarvestsProductivityUntilEndDate(plots: List<Plot>?, plotId: String, endDate: LocalDate?) =
+    private fun calculatePlotHarvestsProductivityAfterStartDate(plots: List<Plot>?, plotId: String, startDate: LocalDate?) =
             plots?.find { it.id == plotId }
                     ?.harvests?.filter { harvest ->
-                        harvest.dateAndTime.toLocalDate() <= endDate
+                        harvest.dateAndTime.toLocalDate() >= startDate
                     }?.map {
                         it.productivity
                     }?.reduceOrNull { acc, i -> acc + i }
-
 
 }
