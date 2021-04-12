@@ -1,7 +1,7 @@
 package com.aegro.domain.farm.usecase
 
 import com.aegro.domain.exception.NotFoundException
-import com.aegro.domain.farm.gateway.outbound.FindFarmIdOutbound
+import com.aegro.domain.farm.gateway.outbound.FindFarmByIdOutbound
 import com.aegro.domain.farm.model.Plot
 import com.aegro.domain.result.model.Failure
 import com.aegro.domain.result.model.Result
@@ -12,14 +12,14 @@ import javax.inject.Named
 
 @Named
 class CalculatePlotHarvestProductivityUntilEndDate(
-        private val findFarmIdOutbound: FindFarmIdOutbound,
+    private val findFarmByIdOutbound: FindFarmByIdOutbound,
 ) : CalculatePlotHarvestProductivityDateFilterStrategy {
 
     override suspend fun validateFilter(startDate: LocalDate?, endDate: LocalDate?) =
             startDate == null && endDate != null
 
     override suspend fun execute(farmId: String, plotId: String, startDate: LocalDate?, endDate: LocalDate?): Result<Int, Exception> {
-        val (_, _, plots) = findFarmIdOutbound.execute(farmId).onFailure { return it }
+        val (_, _, plots) = findFarmByIdOutbound.execute(farmId).onFailure { return it }
         return calculatePlotHarvestsProductivityUntilEndDate(plots, plotId, endDate)
                 ?.let {
                     Success(it)

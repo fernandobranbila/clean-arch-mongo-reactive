@@ -12,6 +12,11 @@ class SaveFarmProvider(
     private val  farmRepository: FarmRepository
 ): SaveFarmOutbound {
 
-    override suspend fun execute(farm: Farm) =
-            farmRepository.save(FarmEntity.fromDomain(farm)).awaitFirst().toDomain()
+    override suspend fun execute(farm: Farm): Farm {
+
+        val a = farmRepository.save(FarmEntity.fromDomain(farm)).awaitFirst().toDomain()
+
+        return a
+    }
+
 }

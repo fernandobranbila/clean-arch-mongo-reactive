@@ -3,7 +3,7 @@ package com.aegro.infrastructure.farm.gateway
 import com.aegro.domain.result.model.Failure
 import com.aegro.domain.result.model.Success
 import com.aegro.domain.exception.NotFoundException
-import com.aegro.domain.farm.gateway.outbound.FindFarmIdOutbound
+import com.aegro.domain.farm.gateway.outbound.FindFarmByIdOutbound
 import com.aegro.domain.farm.model.Farm
 import com.aegro.domain.result.model.Result
 import com.aegro.infrastructure.farm.gateway.mongo.FarmRepository
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component
 import java.util.NoSuchElementException
 
 @Component
-class FindFarmIdProvider(
+class FindFarmByIdProvider(
         private val farmRepository: FarmRepository,
-) : FindFarmIdOutbound {
+) : FindFarmByIdOutbound {
 
     override suspend fun execute(id: String): Result<Farm, Exception> {
         return try {

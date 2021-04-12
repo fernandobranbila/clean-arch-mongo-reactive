@@ -24,15 +24,12 @@ class FarmController(
 ) {
 
     @GetMapping("/{id}")
-    suspend fun findFarmById(@PathVariable id: String): FarmResponseDto {
-        println("aa")
-        val b = findFarmInbound.execute(id)
-        val c = b.orThrow()
-        return FarmResponseDto.fromDomain(findFarmInbound.execute(id).orThrow())
-    }
+    suspend fun findFarmById(@PathVariable id: String) =
+        FarmResponseDto.fromDomain(findFarmInbound.execute(id).orThrow())
 
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     suspend fun saveFarm(@RequestBody farmRequestDto: FarmRequestDto) =
         FarmResponseDto.fromDomain(saveFarmInbound.execute(farmRequestDto.toDomain()))
 
@@ -51,8 +48,12 @@ class FarmController(
         @PathVariable farmId: String,
         @PathVariable plotId: String,
         @RequestBody harvestDtoRequest: List<HarvestDtoRequest>,
-    ) =
+    ) {
+        println(harvestDtoRequest)
+
         savePlotHarvestInbound.execute(farmId, plotId, harvestDtoRequest.map { it.toDomain() })
+    }
+
 
 
     @GetMapping(value = ["/{farmId}/plots/{plotId}/harvests/productivity"])
