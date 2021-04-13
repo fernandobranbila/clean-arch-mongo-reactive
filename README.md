@@ -44,6 +44,6 @@
   
   
   ## To-do Melhorias
-  [ ] Realizar cálculo no mongo com projection, group e sum
-  [ ] Refatorar testes geração de datas "Random"
-  [ ] Fix na conexão do banco no contexto de teste para testes de integração p/ não mockar database
+  - [ ] Realizar cálculo no mongo com projection, group e sum
+  - [ ] Refatorar testes geração de datas "Random"
+  - [ ] Fix na conexão do banco no contexto de teste para testes de integração p/ não mockar database
