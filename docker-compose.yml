@@ -1,27 +1,18 @@
 version: '3'
+
 services:
   app:
     build:
       context: .
       dockerfile: ./Dockerfile
+    environment:
+      - SERVER_PORT=8080
+      - MONGODB_URI=mongodb://root:123456@mymongo:27017/aegro-test?authSource=admin&authMechanism=SCRAM-SHA-1
+      - MONGODB_STATUS_HOST=mymongo
     ports:
       - 9011:9011
-    networks:
-      - mongo-network
-    depends_on:
-      - database
-
-  database:
-    restart: unless-stopped
-    image: mongo:4.2
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 123456
+  mymongo:
+    image: mongo:3.4
     ports:
       - 27017:27017
-    networks:
-      - mongo-network
-
-networks:
-  mongo-network:
-    driver: bridge
+    command: [ "mongod", "--rest" ]

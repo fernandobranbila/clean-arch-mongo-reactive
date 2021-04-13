@@ -10,7 +10,6 @@ management:
 spring:
   data:
     mongodb:
-      uri: mongodb://root:123456@localhost:27017/ze-challenge?authSource=admin&authMechanism=SCRAM-SHA-1
-      authentication-database: ze-challenge
+      uri: mongodb://root:123456@localhost:27017/aegro-test?authSource=admin&authMechanism=SCRAM-SHA-1
   profiles:
     active: ${ACTIVE_PROFILE:dev}
