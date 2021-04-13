@@ -11,9 +11,9 @@
  ## API
  
   * Criar nova fazenda -> ``` v1/farms```
-  * Encontrar fazenda  -> ``` v1/farms/{farmId}
-  * Criar novo lote    -> ``` v1/farms/{farmId}```
-  * Registrar nova colheita -> ``` v1/farms/{farmId}/plots/{plotId}/harvests```
+  * Encontrar fazenda  -> ``` v1/farms/{farmId} ```
+  * Criar novo lote    -> ``` v1/farms/{farmId} ```
+  * Registrar nova colheita -> ``` v1/farms/{farmId}/plots/{plotId}/harvests ```
   * Calcula produtividade de um lote - > ``` v1/farms/{farmId}/plots/{plotId}/harvests/productivity ```
 
       Recebe startDate e endDate como parâmetros opcionais
