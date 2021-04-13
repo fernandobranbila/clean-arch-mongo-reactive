@@ -1,12 +1,15 @@
 package com.aegro.application.farm.entrypoint
 
 import com.aegro.application.farm.entrypoint.dto.*
+import com.aegro.domain.exception.NotFoundException
 import com.aegro.domain.farm.gateway.inbound.*
 import com.aegro.domain.result.model.orThrow
 import com.aegro.infrastructure.farm.gateway.mongo.FarmRepositoryCustomImpl
+import org.slf4j.LoggerFactory
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import java.lang.RuntimeException
 import java.time.LocalDate
 
 @RestController
@@ -23,15 +26,37 @@ class FarmController(
     private val farmRepositoryCustomImpl: FarmRepositoryCustomImpl
 ) {
 
+    companion object {
+        private val log = LoggerFactory.getLogger(FarmController::class.java)
+    }
+
     @GetMapping("/{id}")
-    suspend fun findFarmById(@PathVariable id: String) =
-        FarmResponseDto.fromDomain(findFarmInbound.execute(id).orThrow())
+    suspend fun findFarmById(@PathVariable id: String): FarmResponseDto {
+        try {
+            log.info("entrando")
+            return FarmResponseDto.fromDomain(findFarmInbound.execute(id).orThrow())
+        } catch (e: Exception) {
+            log.info("erro")
+            log.info(e.message)
+            log.info(e.printStackTrace().toString())
+            throw NotFoundException(e.toString())
+        }
+    }
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    suspend fun saveFarm(@RequestBody farmRequestDto: FarmRequestDto) =
-        FarmResponseDto.fromDomain(saveFarmInbound.execute(farmRequestDto.toDomain()))
+    suspend fun saveFarm(@RequestBody farmRequestDto: FarmRequestDto): FarmResponseDto {
+        try {
+            return FarmResponseDto.fromDomain(saveFarmInbound.execute(farmRequestDto.toDomain()))
+        } catch (e: Exception) {
+            log.info("erro")
+            log.info(e.message)
+            log.info(e.printStackTrace().toString())
+            throw NotFoundException(e.toString())
+        }
+    }
+
 
     @PostMapping("/{farmId}/plots")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -48,12 +73,9 @@ class FarmController(
         @PathVariable farmId: String,
         @PathVariable plotId: String,
         @RequestBody harvestDtoRequest: List<HarvestDtoRequest>,
-    ) {
-        println(harvestDtoRequest)
-
-        savePlotHarvestInbound.execute(farmId, plotId, harvestDtoRequest.map { it.toDomain() })
-    }
-
+    ) =
+        savePlotHarvestInbound.execute(farmId, plotId, harvestDtoRequest.map
+        { it.toDomain() })
 
 
     @GetMapping(value = ["/{farmId}/plots/{plotId}/harvests/productivity"])

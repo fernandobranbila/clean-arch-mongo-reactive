@@ -21,7 +21,7 @@ class GlobalExceptionHandler(
         private val log = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
     }
 
-    @ExceptionHandler(value = [(Exception::class), (java.lang.Exception::class), (java.lang.IllegalStateException::class)])
+    @ExceptionHandler(value = [(Exception::class), (java.lang.Exception::class), (java.lang.Exception::class)])
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     suspend fun exception(e: GenericCodeException): ResponseEntity<ErrorMessage> {
         log.error("Exception", e)
