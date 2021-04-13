@@ -35,7 +35,9 @@
 ## Como rodar
 
   ``` gradle build ```
+  
   ``` docker-compose build```
+  
   ``` docker-compose up```
   
   Porta default do app é 9011
