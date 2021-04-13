@@ -56,9 +56,7 @@ class FarmControllerTest {
             .expectStatus().isOk
     }
 
-
-    //TODO()
-/*    @Test
+    @Test
     fun findFarmByIdNotFound() = runBlockingTest {
         whenever(farmRepository.findById("1")).thenThrow(NoSuchElementException())
 
@@ -66,7 +64,7 @@ class FarmControllerTest {
             .uri("/v1/farms/1")
             .exchange()
             .expectStatus().isNotFound;
-    }*/
+    }
 
     @Test
     fun saveFarm() = runBlockingTest {
@@ -99,26 +97,5 @@ class FarmControllerTest {
             .exchange()
             .expectStatus().isNoContent
     }
-
-/*    @Test
-    fun savePlotHarvest() = runBlockingTest {
-        val farmId = "1"
-        val plotId = "2"
-        val harvestDtoRequest = createHarvestPlotDtoRequestMock(2)
-
-        webClient.post()
-            .uri("/v1/farms/$farmId/plots/$plotId/harvests")
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(BodyInserters.fromValue(harvestDtoRequest))
-            .exchange()
-            //.expectStatus().isNoContent
-    }*/
-
-    @Test
-    fun calculatePlotHarvestByStartDateAndEndDate() {
-    }
-
-    @Test
-    fun calculateFarmHarvestsProductivity() {
-    }
+    
 }

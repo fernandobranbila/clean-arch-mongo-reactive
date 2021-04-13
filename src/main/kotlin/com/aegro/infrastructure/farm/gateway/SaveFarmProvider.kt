@@ -13,10 +13,7 @@ class SaveFarmProvider(
 ): SaveFarmOutbound {
 
     override suspend fun execute(farm: Farm): Farm {
-
-        val a = farmRepository.save(FarmEntity.fromDomain(farm)).awaitFirst().toDomain()
-
-        return a
+        return farmRepository.save(FarmEntity.fromDomain(farm)).awaitFirst().toDomain()
     }
 
 }

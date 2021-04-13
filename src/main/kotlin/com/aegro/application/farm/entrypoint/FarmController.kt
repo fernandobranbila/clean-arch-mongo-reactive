@@ -21,41 +21,18 @@ class FarmController(
     private val savePlotHarvestInbound: SavePlotHarvestInbound,
     private val calculatePlotHarvestProductivityByDateFilterInbound: CalculatePlotHarvestByDateFilterInbound,
     private val calculateFarmHarvestsProductivityInbound: CalculateFarmHarvestsProductivityInbound,
-
-
-    private val farmRepositoryCustomImpl: FarmRepositoryCustomImpl
 ) {
 
-    companion object {
-        private val log = LoggerFactory.getLogger(FarmController::class.java)
-    }
 
     @GetMapping("/{id}")
-    suspend fun findFarmById(@PathVariable id: String): FarmResponseDto {
-        try {
-            log.info("entrando")
-            return FarmResponseDto.fromDomain(findFarmInbound.execute(id).orThrow())
-        } catch (e: Exception) {
-            log.info("erro")
-            log.info(e.message)
-            log.info(e.printStackTrace().toString())
-            throw NotFoundException(e.toString())
-        }
-    }
+    suspend fun findFarmById(@PathVariable id: String) =
+        FarmResponseDto.fromDomain(findFarmInbound.execute(id).orThrow())
 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    suspend fun saveFarm(@RequestBody farmRequestDto: FarmRequestDto): FarmResponseDto {
-        try {
-            return FarmResponseDto.fromDomain(saveFarmInbound.execute(farmRequestDto.toDomain()))
-        } catch (e: Exception) {
-            log.info("erro")
-            log.info(e.message)
-            log.info(e.printStackTrace().toString())
-            throw NotFoundException(e.toString())
-        }
-    }
+    suspend fun saveFarm(@RequestBody farmRequestDto: FarmRequestDto) =
+        FarmResponseDto.fromDomain(saveFarmInbound.execute(farmRequestDto.toDomain()))
 
 
     @PostMapping("/{farmId}/plots")
@@ -74,8 +51,7 @@ class FarmController(
         @PathVariable plotId: String,
         @RequestBody harvestDtoRequest: List<HarvestDtoRequest>,
     ) =
-        savePlotHarvestInbound.execute(farmId, plotId, harvestDtoRequest.map
-        { it.toDomain() })
+        savePlotHarvestInbound.execute(farmId, plotId, harvestDtoRequest.map { it.toDomain() })
 
 
     @GetMapping(value = ["/{farmId}/plots/{plotId}/harvests/productivity"])

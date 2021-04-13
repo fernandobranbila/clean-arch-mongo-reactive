@@ -26,6 +26,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+	implementation("org.springdoc:springdoc-openapi-webflux-ui:1.5.2")
 	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")

@@ -10,7 +10,7 @@ management:
 spring:
   data:
     mongodb:
-      uri: mongodb://root:123456@mongo:27017/aegro-test?authSource=admin
+      uri: mongodb://root:123456@localhost:27017/aegro-test?authSource=admin
       authentication-database: admin
       database: aegro-test
   profiles:
